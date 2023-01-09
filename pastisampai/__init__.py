@@ -1,0 +1,16 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
+
+app = Flask(__name__) # initiatition app for flask
+bcrypt = Bcrypt(app) # initiation encrypt with bcrypt to app
+app.config['SECRET_KEY'] = '123456789987654321' #configuration secret key for flask can run
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pastisampai.db' # database configuration for app
+db = SQLAlchemy(app) #initiation database to ap
+login_manager = LoginManager(app) #initiation login manager feature from flask to app
+login_manager.login_message = 'Harap login untuk melihat direktori ini!'
+login_manager.login_view = "login_page" #redirect login if there is someone want access login required page
+login_manager.login_message_category = "info" #flash popup category for login required directory
+
+from pastisampai import routes #import routes for initiation to this application

@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block content %}
+        <!-- Dashboard Section-->
+        <section id="dashboard">
+            <div class="container h-100">
+                <div class="row h-100">
+                    <div class="col-md-12 dashboard-tagline my-auto">
+                        <h1>TRACKING</h1>
+                        <p>Cek lokasi terkini paket anda</p>
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                    <th scope="col">NO</th>
+                                    <th scope="col">NOMOR RESI</th>
+                                    <th scope="col">TANGGAL</th>
+                                    <th scope="col">LOKASI TERKINI</th>
+                                </tr>
+                              </thead>
+                                <tbody>
+                                {% if resis %}
+                                {% for resi in resis %}
+                                <tr>
+                                    <th scope="row">{{loop.index}}</th>
+                                    <td>{{resi.no_resi}}</td>
+                                    <td>{{resi.time_on_update}}</td>
+                                    <td>{{resi.arrived_at}}</td>
+                                </tr>
+                                {% endfor %}
+                                {% else %}
+                                {% for i in range(8) %}
+                                <tr>
+                                    <th scope="row">{{loop.index}}</th>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+{% endblock %}

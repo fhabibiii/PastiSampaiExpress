@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static',filename='css/toastr.min.css')}}">
+        <!-- Font Google -->
+        <link href="{{url_for('static',filename='css/fontgoogle.css')}}" rel="stylesheet">
+
+        <!-- Style -->
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+        <!-- Responsive Style -->
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/responsive.css') }}">
+
+        <!-- Title Bar -->
+        <link rel="icon" href="{{ url_for('static',filename='Assets/img/Logo Small.png') }}" type="image/x-icon">
+        <title>Pasti Sampai Express</title>
+        <script src="{{url_for('static',filename='js/jquery-3.6.0.js')}}"></script>
+    </head>
+    
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-fixed w-100">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url_for('home_page') }}">
+                    <img src="{{ url_for('static',filename='Assets/img/Logo Small.png') }}" alt="" width="30" height="24" class="d-inline-block align-text-top me-3">
+                    PASTI SAMPAI EXPRESS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                            {% if current_user.is_authenticated %}
+                                {% if current_user.roles == 'admin' %}
+                            <li class="nav-item mx-2">
+                                <a href="{{ url_for('dashboard_admin_page') }}" class="nav-link {{ 'active' if request.path == url_for('dashboard_admin_page') }}">ADD</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a href="{{ url_for('update_page') }}"  class="nav-link {{ 'active' if request.path == url_for('update_page') }}">UPDATE</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a href="{{ url_for('tracking_page') }}" class="nav-link {{ 'active' if request.path == url_for('tracking_page') }}">TRACKING</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a href="{{ url_for('account_info') }}" class="nav-link {{ 'active' if request.path == url_for('account_info') }}">ACCOUNT</a>
+                            </li>
+                                {% else %}
+                            <li class="nav-item mx-2">
+                                <a href="{{ url_for('dashboard_page') }}" class="nav-link {{ 'active' if request.path == url_for('dashboard_page') }}">TRACKING</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a href="{{ url_for('account_info') }}" class="nav-link {{ 'active' if request.path == url_for('account_info') }}">ACCOUNT</a>
+                            </li>
+                                {% endif %}
+                            {% else %}
+                            <li class="nav-item mx-2">
+                            <!--  -->
+                            <a href="{{ url_for('home_page') }}" class="nav-link {{ 'active' if request.path == url_for('home_page') }}">HOME</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                            <a href="{{ url_for('service_page') }}" class="nav-link {{ 'active' if request.path == url_for('service_page') }}">SERVICE</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                            <a href="{{ url_for('about_page') }}" class="nav-link {{ 'active' if request.path == url_for('about_page') }}">ABOUT</a>
+                            </li>
+                            <!--  -->
+                            {% endif %}
+                    </ul>
+                    <div>
+                        {% if current_user.is_authenticated %}
+                        <button class="button-primary">
+                            <a href="{{ url_for('account_info') }}">
+                                <img src="{{ url_for('static',filename='Assets/img/user.png') }}" alt="">
+                                {{current_user.username}}</a>
+                        </button>
+                        <input class="btn button-secondary" type='button' id='logout' value='logout'>
+                        {% else %}
+                        <!--  -->
+                        <button class="button-primary">
+                            <a href="{{ url_for('register_page')}}">REGISTER</a>
+                        </button>
+                            <a href="{{ url_for('login_page')}}" class="btn button-secondary">LOGIN</a>
+                        <!--  -->
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Hero Section-->
+        {% block content %}
+        <section id="home">
+            <div class="container h-100">
+                <div class="row h-100">
+                    <div class="col-md-8 home-tagline my-auto">
+                        <h1>Mau Kirim Paket?</h1>
+                        <h1>Pilih Yang Pasti - Pasti Aja!</h1>
+                        <p><span class="fw-bold">Pasti Sampai Cargo</span> hadir untuk memudahkan anda dalam mengirimkan paket ke seluruh Indonesia dengan cepat dan tentunya pasti sampai!</p>
+                        <a href="{{ url_for('about_page')}}">
+                            <input type="button" class="btn button-lg-primary" value="Drop Point Terdekat">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endblock %}
+        <script src="{{ url_for('static',filename='js/script.js') }}"></script>
+        <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{url_for('static',filename='js/toastr.min.js')}}"></script>
+        <script src="{{url_for('static',filename='js/jquery.min.js')}}"></script>
+        {% if current_user.is_authenticated %}
+        <script src="{{url_for('static',filename='js/logout.js')}}"></script>
+        {% endif %}
+        {%with messages = get_flashed_messages(with_categories=True)%}
+        {% if messages %}
+        {% for category,message in messages %}
+        {% if category == 'error' %}
+        <script>
+            toastr.error('{{message}}')
+        </script>
+        {% elif category == 'success' %}
+        <script>
+            toastr.success('{{message}}')
+        </script>
+        {% elif category == 'info' %}
+        <script>
+            toastr.info('{{message}}')
+        </script>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        {% block script %}
+        {% endblock %}
+    </body>
+
+</html>

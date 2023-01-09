@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+{% block content %}
+<section id="update">
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-md-6 update-tagline my-auto">
+                <!-- Bagian Tagline -->
+                <h1>UPDATE LOCATION</h1>
+                <p>Isi form dibawah dengan benar!</p>
+
+                <!-- Bagian Utama -->
+                <form id='form' method="POST">
+                    <!-- Input No Resi -->
+                    {{form.hidden_tag()}}
+                    {{form.noresi(onchange="cekResi()",class='form-control input-update mt-3',placeholder='No Resi',id='resi')}}
+                    <!-- Input Tanggal Terbaru -->
+                    {{form.tanggal(class='form-control input-update mt-3',placeholder='Tanggal')}}
+                    <!-- Input Lokasi Terbaru -->
+                    {{form.arrived_at(class='form-control input-update mt-3',placeholder='Lokasi Terkini')}}
+                    <!-- Button Submit -->
+                    {{form.submit(class='button-update-disabled mt-3',disabled=True,id='submitform')}}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block script %}
+<script>
+    const page = '{{url_for("update_page")}}'
+    const cekResiPage = '{{url_for("cek_resi")}}'
+</script>
+<script>
+    let scriptElement = document.createElement("script");
+    scriptElement.type = "text/javascript";
+    scriptElement.src = "{{url_for('static',filename='js/update.js')}}";
+    document.body.appendChild(scriptElement);
+</script>
+{% endblock %}

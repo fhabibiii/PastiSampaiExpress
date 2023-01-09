@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block content %}
+<section id="login">
+    <div class="container h-100">
+        <div class="row h-100">
+            <div class="col-md-5 login-tagline my-auto">
+                <h1>LOGIN</h1>
+                <p>Silahkan login terlebih dahulu</p>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    {{ form.username(class="form-control input-login mt-3",placeholder="Username")}}
+                    {{ form.password(class="form-control input-login mt-3",placeholder="Password")}}
+                    {{form.submit(class="button-login mt-3",id='submit')}}
+                    <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" id="nexturl"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block script %}
+<script>
+    const login_page = '{{url_for("login_page")}}'
+    const account_info = '{{url_for("account_info")}}'
+</script>
+<script>
+    console.log(document.URL)
+    let scriptElement = document.createElement('script')
+    scriptElement.type = 'text/javascript'
+    scriptElement.src = '{{url_for("static",filename="js/login.js")}}'
+    document.body.appendChild(scriptElement)
+</script>
+{% endblock %}
